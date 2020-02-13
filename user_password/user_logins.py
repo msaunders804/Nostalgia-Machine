@@ -1,6 +1,5 @@
 '''
 Bryan Coleman
-personal project for python #1
 '''
 
 from password_hashing import hash_password
