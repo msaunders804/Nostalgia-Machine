@@ -1,6 +1,5 @@
 '''
 Bryan Coleman
-password hashing for side proj 1
 '''
 
 from hashlib import sha256
