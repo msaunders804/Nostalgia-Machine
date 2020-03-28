@@ -1,11 +1,12 @@
 from PIL import Image
+import numpy as np
 
 
 
 '''
 we are going to cut up the image into 50x50 pixel pieces so
 we are going to insure that the size of the image has a width and
-height that are divisiable by 50 to the nearest
+height that are divisiable by 25 to the nearest
 ex:
     124 -> 100
     126 -> 150
@@ -28,25 +29,47 @@ def resize(image):
 breaks the image into tiles that way we can collect the RGB values and put them into a 
 2-D array that will eventually be used to create our photomosaic
 '''
-def break_into_tiles(image):
+def break_into_tiles(image,rgb_ave):
     width, height = image.size
-    for upper in range(height // 50):
-        print('hi')
-        for left in range(width // 50):
-            print('bye')
-            (left,upper,right,lower) = (left*50,upper*50,left*50+50,upper*50+50)
+    for upp in range(height // 25):
+        for lef in range(width // 25):
+            (left,upper,right,lower) = (lef*25,upp*25,lef*25+25,upp*25+25)
             temp_tile = image.crop((left,upper,right,lower))
-            #collect RGB values and put them into a 2-D array that we will pass through the params as well
-            rgb = temp_tile.convert('RGB')
+            rgb_pix = list(temp_tile.getdata())
+            r_average = 0
+            g_average = 0
+            b_average = 0
+            counter = 0
+            for item in rgb_pix:
+                r_average += item[0]
+                g_average += item[1]
+                b_average += item[2]
+                counter += 1
+            temp_rgb = (r_average//counter,g_average//counter,b_average//counter)
+            rgb_ave.append(temp_rgb)
 
 def main():
-
+    rgb_ave = []
     image = Image.open("test.jpg")      #simple test will need to ask user for picture
     image = resize(image)
     width, height = image.size
-    print(height)
-    print(width)
-    break_into_tiles(image)
+    break_into_tiles(image,rgb_ave)
+
+    new_im = Image.new('RGB',(width,height))
+    i = 0
+    for upp in range(height // 25):
+        for lef in range(width // 25):
+
+            '''
+            will need to find the source image here
+            by using distance equation again all source image rgb values
+            '''
+            temp_im = Image.new('RGB',(25,25),rgb_ave[i])
+            i += 1
+            (left,upper,right,lower) = (lef*25,upp*25,lef*25+25,upp*25+25)
+            new_im.paste(temp_im,(left,upper,right,lower))
+
+    new_im.show()
     image.show()
 
 #testing cropping into small pieces, messing around with how the tuple works
