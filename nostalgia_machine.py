@@ -48,9 +48,9 @@ def break_into_tiles(image,rgb_ave):
             temp_rgb = (r_average//counter,g_average//counter,b_average//counter)
             rgb_ave.append(temp_rgb)
 
-def main():
+def main(pic):
     rgb_ave = []
-    image = Image.open("test.jpg")      #simple test will need to ask user for picture
+    image = Image.open(pic)      #simple test will need to ask user for picture
     image = resize(image)
     width, height = image.size
     break_into_tiles(image,rgb_ave)
@@ -100,5 +100,5 @@ image2 = image.crop((left,upper,right,lower))
 image2.show()
 '''
 
-if __name__ == '__main__':
-    main()
+'''if __name__ == '__main__':
+    main()'''

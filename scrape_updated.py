@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     folder_name = 'testpictures'    # Destination folder in which to save images
     search_keywords = "Spongebob screencaps"
-    max_images = 1000
+    max_images = 100
 
     # Create an empty folder in which to store pictures once they download
     if not os.path.exists(folder_name):  # If folder doesn't exist, just make a new one
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         os.mkdir(folder_name)
 
     # Use webdriver, open an empty Firefox browser
-    driver = webdriver.Firefox(executable_path="C:/Users/olivi_000/Desktop/vboxshared/pyth/geckodriver.exe")
+    driver = webdriver.Firefox(executable_path="/home/megan/Python/Project/geckodriver")
     # Navigate browser to page specified by search_url - in this case, the home page for Google Images
     search_url = 'https://www.google.com/imghp?hl=en'
     driver.get(search_url)

@@ -10,7 +10,7 @@ def create_conn(db_file):
     '''
     conn = None
     try:
-        conn = sqlite4.connect(db_file)
+        conn = sqlite3.connect(db_file)
         print(sqlite3.version)
     except Error as e:
         print(e)
@@ -23,10 +23,15 @@ def create_project(conn):
     '''
     c = conn.cursor()
     spongebob_list = []
-    #roll_through_images(folder?,spongebob_list)
-    c.execute('INSERT INTO spongebob_rgb VALUE (?,?)', spongebob_list)
+    roll_through_images(spongebob_list)
+    print(spongebob_list)
+    c.execute('DROP TABLE spongebob_rgb')
+    c.execute('CREATE TABLE spongebob_rgb (image name TEXT, r value INT, g value INT, b value INT)')
+    c.executemany('INSERT INTO spongebob_rgb VALUES (?,?,?,?)', spongebob_list)
+    conn.commit()
+    conn.close()
 
-def find_rgb(image,spongebob_list):
+def find_rgb(image):
     '''
     find the rgb value of a image
     param -> image
@@ -41,11 +46,14 @@ def find_rgb(image,spongebob_list):
         g_average += item[1]
         b_average += item[2]
         counter += 1
-    temp_rgb = (r_average//counter,g_average//counter,b_average//counter)
-    spongebob_list.append((image,temp_rgb))
+    r = r_average//counter
+    g = g_average//counter
+    b = b_average//counter
 
+    #spongebob_list.append((image,temp_rgb))
+    return (r,g,b)
 
-def roll_through_images():
+def roll_through_images(spongebob_list):
     '''
     roll through a folder
     to send images to find_rgb
@@ -56,7 +64,21 @@ def roll_through_images():
     goal here to find length of a folder and run a for
     loop over every image and finding the rgb value and storing them into a list
     '''
+    import os
 
+    path = os.getcwd()
+    os.chdir("testpictures")
+
+    for i in range(1,100):
+        i = str(i)
+        sourcename = "img_"+i+".jpg"
+        try:
+            image = Image.open(sourcename)
+            r,g,b = find_rgb(image)
+            spongebob_list.append((sourcename, r,g,b))
+        except:
+            print(i, "no good")
+        
 
 if __name__ == '__main__':
     create_project(create_conn(r'images_rgb.db'))

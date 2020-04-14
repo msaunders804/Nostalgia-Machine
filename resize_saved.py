@@ -1,7 +1,13 @@
 import resize_script
+import os
 
-#change the length of the for loop to number of images in file that need resizing
-for i in range(0, 100):
-    i =str(i)
-    sourcename= "img_"+i+".jpg"
-    resize_script.resize_source(sourcename)
+path = os.getcwd()
+os.chdir("testpictures")
+
+for i in range(0,100):
+    i = str(i)
+    sourcename = "img_"+i+".jpg"
+    try:
+        resize_script.resize_source(sourcename)
+    except:
+        os.remove(sourcename)

@@ -11,7 +11,7 @@ ex: 400x450  -> 400x400
 def resize_source(image_name):
     image = Image.open(image_name)
     width,height = image.size
-    image.show()
+    #image.show()
     if width < height:
         height = width 
     elif height < width:
