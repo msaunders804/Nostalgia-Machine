@@ -122,6 +122,7 @@ def main(pic):
 
             #script -> finds closest image
             temp_im = Image.open(query_rgb_values(conn,rgb_ave[i]))
+            temp_im = temp_im.resize((25,25))
             i += 1
             temp_im2 = temp_im.convert('RGB')
             (left,upper,right,lower) = (lef*25,upp*25,lef*25+25,upp*25+25)
