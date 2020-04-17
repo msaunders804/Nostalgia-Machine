@@ -124,9 +124,9 @@ def main(pic):
             temp_im = Image.open(query_rgb_values(conn,rgb_ave[i]))
             temp_im = temp_im.resize((25,25))
             i += 1
-            temp_im2 = temp_im.convert('RGB')
+            #temp_im2 = temp_im.convert('RGB')
             (left,upper,right,lower) = (lef*25,upp*25,lef*25+25,upp*25+25)
-            new_im.paste(temp_im2,(left,upper,right,lower))
+            new_im.paste(temp_im,(left,upper,right,lower))
 
     new_im.show()
     image.show()
