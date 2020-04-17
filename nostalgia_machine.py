@@ -3,6 +3,7 @@ import numpy as np
 import sqlite3
 from sqlite3 import Error
 import math
+import os
 
 '''
 we are going to cut up the image into 50x50 pixel pieces so
@@ -72,7 +73,7 @@ def query_rgb_values(conn,current_tile):
     return current_min[0]
 
 
-def track_min(row,current_tile,current_min)
+def track_min(row,current_tile,current_min):
     '''
     find the value that is the least meaning
     it is the closest in distance to the portion of the
@@ -87,9 +88,9 @@ def track_min(row,current_tile,current_min)
     s_red = row[1]
     s_green = row[2]
     s_blue = row[3]
-    t_red = current_tile[1]
-    t_green = current_tile[2]
-    t_blue = current_tile[3]
+    t_red = current_tile[0]
+    t_green = current_tile[1]
+    t_blue = current_tile[2]
 
     result = math.sqrt(math.pow(s_red - t_red, 2) + math.pow(s_green - t_green, 2) + math.pow(s_blue - t_blue, 2))
 
@@ -116,11 +117,15 @@ def main(pic):
             will need to find the source image here
             by using distance equation again all source image rgb values
             '''
+            path = os.getcwd()
+            os.chdir("testpictures")
+
             #script -> finds closest image
             temp_im = Image.open(query_rgb_values(conn,rgb_ave[i]))
             i += 1
+            temp_im2 = temp_im.convert('RGB')
             (left,upper,right,lower) = (lef*25,upp*25,lef*25+25,upp*25+25)
-            new_im.paste(temp_im,(left,upper,right,lower))
+            new_im.paste(temp_im2,(left,upper,right,lower))
 
     new_im.show()
     image.show()
