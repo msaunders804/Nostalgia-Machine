@@ -7,9 +7,10 @@ from PIL import Image
 
 
 global s, food
-IMAGE = 'z.jpg' # put image name here. NOTE: must be .jpg
+IMAGE = 'MyMosaic.jpg' # put image name here. NOTE: must be .jpg
 IM = Image.open(IMAGE)
 resize = (800, 800)
+
 fn = 'NEW_BG'
 fext = '.jpg'
 IM.thumbnail(resize)
@@ -165,7 +166,7 @@ def randomfood(xrows, yrows, item):
     return (x, y)
 
 
-if __name__ == "__main__":
+if __name__ != "__main__":
     win = pygame.display.set_mode((xborder, yborder))
     s = snake((255, 0, 0), (10, 10))
     food = cube(randomfood(xrows, yrows, s), color=(255, 0, 0))
@@ -183,7 +184,8 @@ if __name__ == "__main__":
 
         for x in range(len(s.body)):
             if s.body[x].position in list(map(lambda z: z.position, s.body[x + 1:])):
-                raise SystemExit
+                #raise SystemExit
+                pygame.quit()
         redrawWindow(win)
 
 

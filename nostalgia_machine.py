@@ -59,9 +59,16 @@ def create_connection(db_file):
 
     return conn
 
-def query_rgb_values(conn,current_tile):
+def query_rgb_values(show, conn,current_tile):
     c = conn.cursor()
-    c.execute('SELECT * FROM spongebob_rgb')
+    if(show == 4):
+        c.execute('SELECT * FROM rocket_rgb')
+    elif(show == 2):
+        c.execute('SELECT * FROM fairly_rgb')
+    elif(show == 3):
+        c.execute('SELECT * FROM danny_rgb')
+    else:
+        c.execute('SELECT * FROM spongebob_rgb')
 
     rows = c.fetchall()
 
@@ -99,7 +106,7 @@ def track_min(row,current_tile,current_min):
         current_min[1] = result
 
 
-def main(pic):
+def main(show, pic):
     rgb_ave = []
     image = Image.open(pic)      #simple test will need to ask user for picture
     image = resize(image)
@@ -118,16 +125,24 @@ def main(pic):
             by using distance equation again all source image rgb values
             '''
             path = os.getcwd()
-            os.chdir("testpictures")
-
+            if(show == 4):
+                os.chdir("Rocket_testpictures")
+            elif(show == 2):
+                os.chdir("Fairly_testpictures")
+            elif(show == 3):
+                os.chdir("DP_testpictures")
+            else:
+                os.chdir("testpictures")    #Default to spongebob
+    
             #script -> finds closest image
-            temp_im = Image.open(query_rgb_values(conn,rgb_ave[i]))
-            temp_im = temp_im.resize((25,25))
+            temp_im = Image.open(query_rgb_values(show, conn,rgb_ave[i]))
             i += 1
-            #temp_im2 = temp_im.convert('RGB')
+            temp_im2 = temp_im.convert('RGB')
             (left,upper,right,lower) = (lef*25,upp*25,lef*25+25,upp*25+25)
-            new_im.paste(temp_im,(left,upper,right,lower))
+            new_im.paste(temp_im2,(left,upper,right,lower))
+            os.chdir("..")
 
+    new_im.save("MyMosaic.jpg")
     new_im.show()
     image.show()
 
