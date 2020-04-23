@@ -23,3 +23,10 @@ Overall idea:
   Play snake game; 
   Return to menu;
   
+  #How to run write up
+  1. Run scrape.py for each movie you would like
+  2. Run resize_saved.py to resize all the scraped images
+  3. Run push_source_im_to_sql_w_rbg.py for each more to store the resized images into the database
+  4. Ensure you have all your scripts and images in the same file
+  5. Run nostalgia_machine.py and HAVE FUN!
+  
